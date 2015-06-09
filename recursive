@@ -41,8 +41,8 @@ int main()
 
     const int nPop = 2;
     int popDiploidSizes[nPop] = { 4, 4 };
-    int maxSites = 200; // -1 if you do not want to limit
-    const char* beagleFilePath = "C:/Users/Windows/Desktop/THESE IRD/BAM/0.ANGSD/ownANGSD/Glb_all.beagle";
+    int maxSites = -1; // -1 if you do not want to limit
+    const char* beagleFilePath = "C:/Users/Windows/Desktop/THESE IRD/BAM/0.ANGSD/ownANGSD/testData.beagle";
     const char* outSFSPath = "C:/Users/Windows/Desktop/THESE IRD/BAM/0.ANGSD/ownANGSD/noComb/nc_2dsfs.txt";
 
 // Compute number of diploid individuals
@@ -67,7 +67,7 @@ for ( int i=0; i<popDiploidSizes[0]*2+1; i++ ) { for ( int l=0; l<popDiploidSize
 
 int index = 0;
 // iterate through the BEAGLE file
-while (std::getline(infile, line) && index <= maxSites)
+while ( std::getline(infile, line) )
 {
     // read input file line-by-line
     std::istringstream iss(line);
@@ -134,10 +134,9 @@ while (std::getline(infile, line) && index <= maxSites)
 
     }
 
-    if ( maxSites > 0 ) {
-        index++;
-        if ( index % 10000 == 0 ) { cout << "read " << index << " sites\n"; }
-    }
+    index++;
+    if ( index % 10000 == 0 ) { cout << "read " << index << " sites\n"; }
+    if ( maxSites > 0 && index == maxSites ) { break; }
 }
 
     infile.close();
